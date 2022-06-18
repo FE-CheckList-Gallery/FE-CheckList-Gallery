@@ -5,41 +5,40 @@ import { Link, useParams } from 'react-router-dom';
 import { postApi } from '../../lib/api';
 // import {Javascript} from '@codemirror/lang-javascript';
 
-// const data = {
-//   _id: '62a9dc99780410333bcfaab2',
-//   title: 'components',
-//   description: '컴포넌트들입니다.',
-//   categories: [
-//     {
-//       category: {
-//         _id: '62a8d421e03a17e54baca22e',
-//         name: 'React',
-//         lowerName: 'react',
-//         post: 7,
-//         __v: 0,
-//       },
-//       _id: '62a9dc99780410333bcfaab3',
-//     },
-//     {
-//       category: {
-//         _id: '62a8d9c12fa2d26afba46c27',
-//         name: 'Component',
-//         lowerName: 'component',
-//         post: 2,
-//         __v: 0,
-//       },
-//       _id: '62a9dc99780410333bcfaab4',
-//     },
-//   ],
-//   code: ['console.log(bla)'],
-//   author: null,
-//   createdAt: '2022-06-15T13:20:25.450Z',
-//   updatedAt: '2022-06-15T13:20:25.450Z',
-//   __v: 0,
-// };
+const data = {
+  _id: '62a9dc99780410333bcfaab2',
+  title: 'components',
+  description: '컴포넌트들입니다.',
+  categories: [
+    {
+      category: {
+        _id: '62a8d421e03a17e54baca22e',
+        name: 'React',
+        lowerName: 'react',
+        post: 7,
+        __v: 0,
+      },
+      _id: '62a9dc99780410333bcfaab3',
+    },
+    {
+      category: {
+        _id: '62a8d9c12fa2d26afba46c27',
+        name: 'Component',
+        lowerName: 'component',
+        post: 2,
+        __v: 0,
+      },
+      _id: '62a9dc99780410333bcfaab4',
+    },
+  ],
+  code: ['console.log(bla)'],
+  author: null,
+  createdAt: '2022-06-15T13:20:25.450Z',
+  updatedAt: '2022-06-15T13:20:25.450Z',
+  __v: 0,
+};
 
 function Title({ title }) {
-
   return (
     <DetailTitleBox>
       <h2>{title}</h2>
@@ -51,7 +50,7 @@ function Title({ title }) {
 function Tags({ categories }) {
   const tagBox = categories; // fetch로 받아와야 함
   // tagBox span으로 묶기
-  const tagResult = tagBox.map((tag) => <TagLink to="/">{tag.category.name}</TagLink>);
+  const tagResult = tagBox.map((tag) => <TagLink key={tag.children} to="#">{tag.category.name}</TagLink>);
 
   return (
     <TagBox>
@@ -61,7 +60,6 @@ function Tags({ categories }) {
 }
 
 function Body({ description }) {
-
   return (
     <BodyBox>
       <p>{description}</p>
@@ -80,7 +78,7 @@ function CodeContainer({ code }) {
     <div>
       <CodeToggle openState={openState} onClick={handleToggle}>{openState ? '코드 접기' : '코드 보기'}</CodeToggle>
       <CodeMirror
-        value={code}
+        value={code.join('\n')}
         height="200px"
         // extensions={[Javascript({ jsx: true })]}
         readOnly
@@ -94,7 +92,6 @@ function CodeContainer({ code }) {
 }
 
 function Content({ code }) {
-
   return (
     <ContentBox>
       {code}
@@ -102,11 +99,14 @@ function Content({ code }) {
   );
 }
 
-export default async function Detail() {
-  const { postId } = useParams();
-  console.log(postId);
-  const res = await postApi.getPostById(postId);
-  console.log(res);
+export default function Detail() {
+  // const { postId } = useParams();
+  // try {
+  //   const data = await postApi.getPostById(postId);
+  //   console.log(data);
+  // } catch (e) {
+  //   console.log(e);
+  // }
 
   return (
     <DetailContainer>
