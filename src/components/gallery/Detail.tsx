@@ -3,7 +3,12 @@ import CodeMirror from '@uiw/react-codemirror';
 import styled from 'styled-components';
 import { Link, useParams } from 'react-router-dom';
 import { postApi } from '../../lib/api';
+import CodeEditor from '@uiw/react-textarea-code-editor';
 // import {Javascript} from '@codemirror/lang-javascript';
+
+// import 'codemirror/mode/javascript/javascript';
+// import 'codemirror/addon/edit/matchbrackets';
+// import 'codemirror/lib/codemirror.css';
 
 const data = {
   _id: '62a9dc99780410333bcfaab2',
@@ -77,14 +82,17 @@ function CodeContainer({ code }) {
   return (
     <div>
       <CodeToggle openState={openState} onClick={handleToggle}>{openState ? '코드 접기' : '코드 보기'}</CodeToggle>
-      <CodeMirror
+      <CodeEditor
         value={code.join('\n')}
-        height="200px"
+        // height="200px"
         // extensions={[Javascript({ jsx: true })]}
+        language="ts"
         readOnly
         style={{
           fontSize: 14,
           display: openState ? 'block' : 'none',
+          borderRadius: 4,
+          backgroundColor: 'white',
         }}
       />
     </div>
