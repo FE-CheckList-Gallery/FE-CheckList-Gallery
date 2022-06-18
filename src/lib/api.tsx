@@ -45,3 +45,5 @@ export const userApi = {
     },
   }),
 };
+
+console.log(postApi.getAllPosts());
