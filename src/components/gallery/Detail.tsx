@@ -32,7 +32,7 @@ const data = {
       _id: '62a9dc99780410333bcfaab4',
     },
   ],
-  code: ['console.log(bla)'],
+  code: ['console.log(bla)', 'console.log(lala)'],
   author: null,
   createdAt: '2022-06-15T13:20:25.450Z',
   updatedAt: '2022-06-15T13:20:25.450Z',
@@ -75,18 +75,36 @@ function CodeContainer({ code }) {
     setOpenState((cur) => !cur);
   }
 
+  function CodeEditors() {
+    const codes = code.map(file => {
+      async function readFile(curFile) {
+        const read = await file.text();
+        return read;
+      }
+      const text = readFile(file); 
+      const type = file.split('.').pop();
+      console.log(text);
+
+      return (
+        <div>
+          <p>{file}</p>
+          <StyledCodeEditor
+            openState={openState}
+            value={text}
+            padding={20}
+            language={type}
+            readOnly
+          />
+        </div>
+      );
+    });
+    return <div>{codes}</div>
+  }
+
   return (
     <div>
       <CodeToggle openState={openState} onClick={handleToggle}>{openState ? '코드 접기' : '코드 보기'}</CodeToggle>
-      <StyledCodeEditor
-        openState={openState}
-        value={code.join('\n')}
-        padding={20}
-        // height="200px"
-        // extensions={[Javascript({ jsx: true })]}
-        language="js"
-        readOnly
-      />
+      <CodeEditors/>
     </div>
   );
 }
@@ -141,6 +159,8 @@ const StyledCodeEditor = styled(CodeEditor)`
   border-radius: 4px;
   background-color: white;
   border: 1px solid ${(props) => props.theme.palette.daydream};
+  margin-bottom: 16px;
+  margin-top: 4px;
 `;
 
 const TagLink = styled(Link)`
@@ -159,7 +179,7 @@ const CodeToggle = styled.button`
   background-color: ${(props) => (props.openState ? props.theme.palette.lobelia : props.theme.palette.africanviolet)};
   transition: 0.3s ease all;
   border-radius: 6px;
-  margin-bottom: 6px;
+  margin-bottom: 10px;
   width: 80px;
   height: 24px;
   color: white;
