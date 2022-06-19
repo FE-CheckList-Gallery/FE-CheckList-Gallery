@@ -6,10 +6,6 @@ import { postApi } from '../../lib/api';
 import CodeEditor from '@uiw/react-textarea-code-editor';
 // import {Javascript} from '@codemirror/lang-javascript';
 
-// import 'codemirror/mode/javascript/javascript';
-// import 'codemirror/addon/edit/matchbrackets';
-// import 'codemirror/lib/codemirror.css';
-
 const data = {
   _id: '62a9dc99780410333bcfaab2',
   title: 'components',
@@ -82,18 +78,14 @@ function CodeContainer({ code }) {
   return (
     <div>
       <CodeToggle openState={openState} onClick={handleToggle}>{openState ? '코드 접기' : '코드 보기'}</CodeToggle>
-      <CodeEditor
+      <StyledCodeEditor
+        openState={openState}
         value={code.join('\n')}
+        padding={20}
         // height="200px"
         // extensions={[Javascript({ jsx: true })]}
-        language="ts"
+        language="js"
         readOnly
-        style={{
-          fontSize: 14,
-          display: openState ? 'block' : 'none',
-          borderRadius: 4,
-          backgroundColor: 'white',
-        }}
       />
     </div>
   );
@@ -108,13 +100,19 @@ function Content({ code }) {
 }
 
 export default function Detail() {
-  // const { postId } = useParams();
-  // try {
-  //   const data = await postApi.getPostById(postId);
-  //   console.log(data);
-  // } catch (e) {
-  //   console.log(e);
+
+  // async function Data() {
+  //   const { postId } = useParams();
+  //   try {
+  //     const res = await postApi.getPostById(postId);
+  //     console.log(res);
+  //     return res;
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
   // }
+
+  // const data = Data();
 
   return (
     <DetailContainer>
@@ -137,6 +135,14 @@ export default function Detail() {
   );
 }
 
+const StyledCodeEditor = styled(CodeEditor)`
+  font-size: 14px;
+  display: ${(props) => props.openState ? 'block' : 'none'};
+  border-radius: 4px;
+  background-color: white;
+  border: 1px solid ${(props) => props.theme.palette.daydream};
+`;
+
 const TagLink = styled(Link)`
   text-decoration: none;
 `;
@@ -153,6 +159,7 @@ const CodeToggle = styled.button`
   background-color: ${(props) => (props.openState ? props.theme.palette.lobelia : props.theme.palette.africanviolet)};
   transition: 0.3s ease all;
   border-radius: 6px;
+  margin-bottom: 6px;
   width: 80px;
   height: 24px;
   color: white;
