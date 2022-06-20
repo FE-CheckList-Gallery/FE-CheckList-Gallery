@@ -1,43 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import CodeMirror from '@uiw/react-codemirror';
 import styled from 'styled-components';
 import { Link, useParams } from 'react-router-dom';
 import { postApi } from '../../lib/api';
 import CodeEditor from '@uiw/react-textarea-code-editor';
-// import {Javascript} from '@codemirror/lang-javascript';
-
-const data = {
-  _id: '62a9dc99780410333bcfaab2',
-  title: 'components',
-  description: '컴포넌트들입니다.',
-  categories: [
-    {
-      category: {
-        _id: '62a8d421e03a17e54baca22e',
-        name: 'React',
-        lowerName: 'react',
-        post: 7,
-        __v: 0,
-      },
-      _id: '62a9dc99780410333bcfaab3',
-    },
-    {
-      category: {
-        _id: '62a8d9c12fa2d26afba46c27',
-        name: 'Component',
-        lowerName: 'component',
-        post: 2,
-        __v: 0,
-      },
-      _id: '62a9dc99780410333bcfaab4',
-    },
-  ],
-  code: ['console.log(bla)', 'console.log(lala)'],
-  author: null,
-  createdAt: '2022-06-15T13:20:25.450Z',
-  updatedAt: '2022-06-15T13:20:25.450Z',
-  __v: 0,
-};
+import {IAllPostProps} from '../../types/interface';
 
 function Title({ title }) {
   return (
@@ -118,40 +85,44 @@ function Content({ code }) {
 }
 
 export default function Detail() {
+  const [post, setPost] = useState<IAllPostProps>({});
 
-  // async function Data() {
-  //   const { postId } = useParams();
-  //   try {
-  //     const res = await postApi.getPostById(postId);
-  //     console.log(res);
-  //     return res;
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
-  // }
-
-  // const data = Data();
+  useEffect(() => {
+    async function Data() {
+      const { postId } = useParams();
+      try {
+        const res = await postApi.getPostById(postId);
+        setPost(() => res);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+  }, []);
 
   return (
     <DetailContainer>
       {/* 제목 */}
-      <Title title={data.title} />
+      <Title title={post.title} />
 
       {/* 태그 */}
-      <Tags categories={data.categories} />
+      <Tags categories={post.categories} />
 
       {/* 내용 */}
-      <Body description={data.description} />
+      <Body description={post.description} />
 
       {/* 코드창 */}
-      <CodeContainer code={data.code} />
+      <CodeContainer code={post.code} />
 
       {/* 컨텐츠 */}
-      <Content code={data.code} />
+      <Content code={post.code} />
 
     </DetailContainer>
   );
 }
+
+// const CodeTitle = styled.p`
+//   display: ${}
+// `
 
 const StyledCodeEditor = styled(CodeEditor)`
   font-size: 14px;
