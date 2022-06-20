@@ -1,6 +1,18 @@
 import React, { useState } from 'react';
+import styled from 'styled-components';
 import Slider from '../common/Slider';
 import Loader from '../common/Loader';
+import SideBar from './SideBar';
+
+const GalleryContainer = styled.div`
+  width: 768px;
+  margin-left: auto;
+  margin-right: auto;
+
+  @media ${(props) => props.theme.devices.mobile} {
+    width: 100%;
+  };
+`;
 
 function Gallery() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -15,12 +27,10 @@ function Gallery() {
   return isLoading ? (
     <Loader />
   ) : (
-    <>
-      {/* <Header /> */}
-      {/* <Sidebar /> */}
+    <GalleryContainer>
+      <SideBar />
       <Slider />
-      {/* <Footer /> */}
-    </>
+    </GalleryContainer>
   );
 }
 

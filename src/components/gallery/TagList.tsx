@@ -5,6 +5,8 @@ import styled from 'styled-components';
 const StyledTagList = styled.div`
     position: absolute;
     width: 11.5rem;
+    left: -13.5rem;
+    margin-top: 2rem;
 
     & .title {
         font-size: 1rem;
@@ -19,8 +21,8 @@ const StyledTagList = styled.div`
     & ul :not(:first-child) {
       margin-top: 0.25rem;
     };
-    
-    @media ${(props) => props.theme.devices.desktop} {
+
+    @media (max-width: 1200px) {
       display: none;
     };
 `;
@@ -52,38 +54,38 @@ const StyledLink = styled(Link)`
   }
 `;
 
-function TagList() {
-  const [selectedTag, setSelectedTag] = useState('전체보기');
-  const [tags, setTags] = useState([
-    { name: '전체보기', count: 8, isSelected: true },
-    { name: '태그1', count: 3, isSelected: false },
-    { name: '태그2', count: 5, isSelected: false },
-    { name: '태그3', count: 1, isSelected: false },
-    { name: '태그4', count: 6, isSelected: false },
-    { name: '태그5', count: 2, isSelected: false },
-  ]);
+function TagList({ postCount, tags }) {
+  const [selectedId, setSelectedId] = useState('');
 
-  const handleClick = (e: any) => {
+  const handleClick = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
 
     if (e.target.nodeName === 'A') {
-      document.querySelector('.selected')?.classList.remove('selected');
-      e.target.classList.add('selected');
-      setSelectedTag(e.target.key);
+      setSelectedId(e.target.id);
     }
   };
 
+  // TODO
+  // - [ ] 전체보기 카테고리 생기면 수정
   return (
     <StyledTagList className="TagList" onClick={handleClick}>
       <div>
         <div className="title">태그 목록</div>
         <ul>
-          {tags.map(({ name, count }) => (
-            <Tag key={name} className="Tag">
-              <StyledLink to="#;" className={name === selectedTag ? 'selected' : ''}>{name}</StyledLink>
+          <Tag key="allCategories">
+            <StyledLink to="/gallery" id="allCategories" className="Tag selected">전체보기</StyledLink>
+            <span>
+              (
+              {postCount}
+              )
+            </span>
+          </Tag>
+          {tags.map(({ _id, name, post }) => (
+            <Tag key={_id} className="Tag">
+              <StyledLink to={`/gallery?tag=${_id}`} id={_id} className={`${_id === selectedId ? 'selected' : null}`}>{name}</StyledLink>
               <span>
                 (
-                {count}
+                {post}
                 )
               </span>
             </Tag>
