@@ -10,13 +10,13 @@ export default defineConfig({
     react(),
   ],
   resolve: {
-    alias: {
-      '@': resolve(__dirname, './src'),
-      '@components': resolve(__dirname, './src/components'),
-      '@images': resolve(__dirname, './src/images'),
-      '@lib': resolve(__dirname, './src/lib'),
-      '@styles': resolve(__dirname, './src/styles'),
-      '@types': resolve(__dirname, './src/types'),
-    },
+    alias: [
+      { find: '@', replacement: resolve(__dirname, 'src') },
+      { find: '@components', replacement: resolve(__dirname, 'src/components') },
+      { find: '@images', replacement: resolve(__dirname, 'src/images') },
+      { find: '@lib', replacement: resolve(__dirname, 'src/lib') },
+      { find: '@styles', replacement: resolve(__dirname, 'src/styles') },
+      { find: '@types', replacement: resolve(__dirname, 'src/types') },
+    ],
   },
 });
