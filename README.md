@@ -91,7 +91,8 @@
 </summary>
 <div markdown="1">       
 
-😎숨겨진 내용😎
+- 사이드바 태그목록 컴포넌트 구현
+- path alias 적용
 
 </div>
 </details>
